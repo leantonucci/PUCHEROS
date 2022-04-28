@@ -4,6 +4,7 @@ import random
 from led2 import led
 from led2 import setup as setup_led
 from stepper3 import motor
+from rele2 import lampara
 import sys
 
 GPIO.setwarnings(False)
@@ -29,7 +30,10 @@ def menu_principal():
         except KeyboardInterrupt:
             avanzar = 0
     elif decision == "3":
-        pass
+        try: 
+            lampara()
+        except KeyboardInterrupt:
+            avanzar = 0
     else:
         sys.exit()
     
