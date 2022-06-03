@@ -40,9 +40,9 @@ def move(pasos_motor,out1,out2,out3,out4,i,positive,negative,y, buttonIn, alto):
           GPIO.output(enb,GPIO.HIGH)
           x1= input("Mover motor a ON/OFF: ")
           if x1 == "ON" or x1 == "on" or x1 == "1":
-              x = pasos_motor
-          elif x1 == "OFF" or x1 == "Off" or x1 == "off" or x1 == "0":
               x = -1*pasos_motor
+          elif x1 == "OFF" or x1 == "Off" or x1 == "off" or x1 == "0":
+              x = pasos_motor
           else:
               raise KeyboardInterrupt
           if x>0 and x<=400:
@@ -117,8 +117,8 @@ def move(pasos_motor,out1,out2,out3,out4,i,positive,negative,y, buttonIn, alto):
                           i=0
                           continue
                       i=i+1
-      
-      
+  
+  
           elif x<0 and x>=-400:
               x=x*-1
               for y in range(x,0,-1):
@@ -130,7 +130,8 @@ def move(pasos_motor,out1,out2,out3,out4,i,positive,negative,y, buttonIn, alto):
                       y=y+3
                       positive=0
                   negative=1
-                  #print((x+1)-y) 
+                  #print((x+1)-y)
+                  #if GPIO.input(buttonIn)==0:
                   if i==0:
                       GPIO.output(out1,GPIO.HIGH)
                       GPIO.output(out2,GPIO.LOW)

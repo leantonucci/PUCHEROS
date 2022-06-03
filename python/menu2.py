@@ -9,7 +9,7 @@ import sys
 
 GPIO.setwarnings(False)
 duty_cycle_led = 60
-pasos_motor = 400
+pasos_motor = 100
 
 def menu_principal():
     avanzar = 0
