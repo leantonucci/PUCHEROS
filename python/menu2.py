@@ -8,7 +8,7 @@ from rele2 import lampara
 import sys
 
 GPIO.setwarnings(False)
-duty_cycle_led = 60
+duty_cycle_led = 100
 pasos_motor = 100
 
 def menu_principal():
