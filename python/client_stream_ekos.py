@@ -1,5 +1,6 @@
 import sys, time, logging
 import PyIndi
+import threading
   
 class IndiClient(PyIndi.BaseClient):
  
@@ -13,6 +14,7 @@ class IndiClient(PyIndi.BaseClient):
         self.offset = offset
         self.streaming_exposure = streaming_exposure
         self.delay = delay
+        self.abort_thread = threading.Thread(target=self.abort_stream)
     def newDevice(self, d):
         self.logger.info("new device " + d.getDeviceName())
         if d.getDeviceName() == "QHY CCD QHY5LII-M-60b7e":
@@ -86,6 +88,21 @@ class IndiClient(PyIndi.BaseClient):
         self.sendNewNumber(streaming_exposure)
         self.sendNewNumber(stream_delay)
         self.sendNewSwitch(ccd_video_stream)
+        self.abort_thread.start()
+        
+    def abort_stream(self):
+        # Deactivate streaming
+        ccd_video_stream = self.device.getSwitch("CCD_VIDEO_STREAM")
+        choice = input("Abort stream?: ")
+        if choice == "yes" or choice =="YES" or choice == "Yes" or choice == "1":
+            print("Ending stream")
+            ccd_video_stream[0].s = 0
+            ccd_video_stream[1].s = 1
+            self.sendNewSwitch(ccd_video_stream)
+        else:
+            print("Stream continues")
+        for t in ccd_video_stream:
+                print("       "+t.name+" = "+str(t.s))
         
 str_gain = input("Choose gain: ")
 str_offset = input("Choose offset: ")
